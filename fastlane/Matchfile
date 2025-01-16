@@ -1,0 +1,5 @@
+git_url(ENV["MATCH_GIT_URL"])  
+storage_mode("git")  
+type("appstore")  
+app_identifier(ENV["DEVELOPER_APP_IDENTIFIER"])  
+username(ENV["FASTLANE_USER"])
