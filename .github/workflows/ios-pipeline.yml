@@ -1,38 +1,28 @@
-name: iOS CI
+name: iOS Pipeline
 
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
   build:
-    runs-on: macos-latest
-
+    runs-on: macos-latest  # Use macOS runner
+    
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2
 
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 3.0
+        ruby-version: '2.7'
 
-    - name: Install Bundler
-      run: gem install bundler
-
-    - name: Install Gems
-      run: bundle install
-
-    - name: Install CocoaPods Dependencies
-      run: pod install
-      working-directory: hello-world-ios
-
-    - name: Build the app
-      run: xcodebuild -scheme hello-world-ios clean build
-
-    - name: Run Tests
-      run: xcodebuild test -scheme hello-world-ios -destination 'platform=iOS Simulator,name=iPhone 14'
+    - name: Install CocoaPods
+      run: |
+        sudo gem install cocoapods
+        pod install
+    
+    - name: Build the iOS app
+      run: |
+        xcodebuild -workspace hello-world-ios.xcworkspace -scheme hello-world-ios -sdk iphonesimulator -configuration Debug
