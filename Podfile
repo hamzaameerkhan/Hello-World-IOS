@@ -1,8 +1,13 @@
-platform :ios, '14.0'
+# Podfile
+
+platform :ios, '12.0'
+
+# Specify the project path
+project 'hello-world-ios/hello-world-ios.xcodeproj'
 
 target 'hello-world-ios' do
   use_frameworks!
 
-  # Pods for hello-world-ios
-  pod 'Alamofire'
+  # Add your dependencies here
+  pod 'Alamofire', '~> 5.4'
 end
