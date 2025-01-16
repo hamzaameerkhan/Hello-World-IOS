@@ -1,0 +1,38 @@
+name: iOS CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.0
+
+    - name: Install Bundler
+      run: gem install bundler
+
+    - name: Install Gems
+      run: bundle install
+
+    - name: Install CocoaPods Dependencies
+      run: pod install
+      working-directory: hello-world-ios
+
+    - name: Build the app
+      run: xcodebuild -scheme hello-world-ios clean build
+
+    - name: Run Tests
+      run: xcodebuild test -scheme hello-world-ios -destination 'platform=iOS Simulator,name=iPhone 14'
